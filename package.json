@@ -4,7 +4,8 @@
   "description": "A web application that records phone conversations and stores them for later viewing",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node index.js"
   },
   "repository": {
     "type": "git",
