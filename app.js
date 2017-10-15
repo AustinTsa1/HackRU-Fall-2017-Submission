@@ -117,7 +117,7 @@ app.post('/record', (request, response) => {
   twiml.say('Hello. Please leave a message after the beep.');
 
   // Use <Record> to record and transcribe the caller's message
-  twiml.record({transcribe: true, maxLength: 30, action: '/recordDone', playBeep: false});
+  twiml.record({transcribe: false, maxLength: 3600, action: '/recordDone', playBeep: false});
 
   // End the call with <Hangup>
   twiml.hangup();
