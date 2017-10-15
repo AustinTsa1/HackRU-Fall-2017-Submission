@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
+<html>
 <head>
+    <title>Phone Listener - Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -17,9 +19,21 @@
             <li class="nav-item">
               <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
+            <% if (!loggedIn) { %>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="/login">Login</a>
             </li>
+            <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recordings">Recordings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            <% } %>
           </ul>
         </nav>
         <h3 class="text-muted">Phone Listener</h3>
@@ -28,10 +42,10 @@
       <div class="jumbotron">
         <h2 class="display-3">Record your calls for later listening.</h2>
         <p class="lead">The phone listener uses the Twilio API to record phone calls so that you can refer back to them later. Whether it's a business conference call or an over-the-phone interview, you never have to forget your important conversations again.</p>
-        <% if (loggedIn) {%>
+        <% if (!loggedIn) {%>
         <p><a class="btn btn-lg btn-success" href="/signup" role="button">Sign up today</a></p>
         <%} else {%>
-         <p><a class="btn btn-lg btn-success" href="/signup" role="button">ur logged in alrdy</a></p>
+         <p><a class="btn btn-lg btn-success" href="/recordings" role="button">View your recordings</a></p>
         <% } %>
       </div>
 
@@ -42,3 +56,4 @@
     </div>
 
 </body>
+</html>

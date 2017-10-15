@@ -1,18 +1,19 @@
-<!-- views/profile.ejs -->
 <!DOCTYPE html>
+
 <html>
 <head>
-    <title>Phone Listener - Profile</title>
+    <title>Phone Listener - Recordings</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="narrow-jumbotron.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 </head>
-<body>
-<div class="container">
 
-    <div class="header clearfix">
+<body>
+
+	<div class="container">
+      <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills float-right">
             <li class="nav-item">
@@ -30,26 +31,31 @@
           </ul>
         </nav>
         <h3 class="text-muted">Phone Listener</h3>
+      </div>
+
+      <h1>Your Recordings</h1>
+      <table class="table table-striped">
+      	<thead>
+      		<tr>
+      			<th>Link</th>
+      			<th>Read</th>
+      			<th>Date</th>
+      		</tr>
+      	</thead>
+
+      	<tbody>
+      		<% for(var i = 0; i < recordings.length; i++){ %>
+      		<tr>
+      			<th><%= recordings[i].url %></th>
+      			<th><%= recordings[i].read %></th>
+      			<th><%= recordings[i].date %></th>
+      		</tr>
+      		<% } %>
+      	</tbody>
+
+      </table>
+
     </div>
 
-    <div class="row">
-
-        <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
-
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>
-
-            </div>
-        </div>
-
-    </div>
-
-</div>
 </body>
 </html>
