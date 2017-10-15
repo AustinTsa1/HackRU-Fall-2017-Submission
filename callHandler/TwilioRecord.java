@@ -18,23 +18,38 @@ import com.twilio.twiml.*;
 @WebServlet("/voice")
 public class TwilioRecord extends HttpServlet {
 
+    public static void main(String[] args) {
+        Record record = new Record.Builder().build();
+        VoiceResponse response = new VoiceResponse.Builder().record(record)
+            .build();
+
+        try {
+            System.out.println(response.toXml());
+        } catch (TwiMLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(record.getRecordingStatusCallback());
+    }
+	
     // Find your Account Sid and Token at twilio.com/user/account
+	/*
     public static final String ACCOUNT_SID = "ACd87c1b6c124645a1c0c731530a700ea1";
-    public static final String AUTH_TOKEN = "your_auth_token";
+    public static final String AUTH_TOKEN = "7c744298099d73244083dcd2b1ea90cf";
 
     public static void main(String[] args) throws URISyntaxException {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
         Call call = Call.creator(
-                new PhoneNumber("+14155551212"),
-                new PhoneNumber("+15017250604"),
-                new URI("http://demo.twilio.com/docs/voice.xml")
+                new PhoneNumber("19083070779"),
+                new PhoneNumber("7325079779"),
+                new URI("https://www.youtube.com/watch?v=sUmoa4uDlWc")
                 )
                 .setRecord(true)
                 .create();
 
         System.out.println(call.getSid());
     }
+    */
 	
   // Handle HTTP POST to /record
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
