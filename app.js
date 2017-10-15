@@ -2,11 +2,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
-
-app.get('/secret', function(req, res){
-	res.send('Test');
+  res.send('index.html');
 });
 
 app.listen(process.env.PORT || 3000, function () {
