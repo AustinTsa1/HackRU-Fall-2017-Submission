@@ -72,23 +72,22 @@ app.get('/signup', function(req, res) {
 // we will use route middleware to verify this (the isLoggedIn function)
 app.get('/profile', isLoggedIn, function(req, res) {
 
-	var r = new Recording();
-	r.email = "aaronkau@Hotmail.com";
-	r.read = false;
-	r.url = "https://www.google.com/";
+    res.render('profile.ejs', {
+        user : req.user
+    });
+});
 
-	r.save();
-
-	Recording.find({
-		email: req.user.email
-	}, function(err, recordings) {
-		    res.render('profile.ejs', {
-	        	user : req.user,
-	        	recordings
-	    	});
-	    	console.log(recordings);
-	});
-
+// RECORDINGS
+app.get('/recordings', isLoggedIn, function(req, res) {
+   Recording.find({
+        email: req.user.email
+    }, function(err, recordings) {
+            res.render('recordings.ejs', {
+                user : req.user,
+                recordings
+            });
+            console.log(recordings);
+    });
 });
 
 // =====================================

@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="narrow-jumbotron.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  </head>
+</head>
 
 <body>
 
@@ -17,11 +17,6 @@
             <li class="nav-item">
               <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <% if (!loggedIn) { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <% } else { %>
             <li class="nav-item">
               <a class="nav-link" href="/profile">Profile</a>
             </li>
@@ -31,25 +26,32 @@
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
             </li>
-            <% } %>
           </ul>
         </nav>
         <h3 class="text-muted">Phone Listener</h3>
       </div>
 
-      <div class="jumbotron">
-        <h2 class="display-3">Record your calls for later listening.</h2>
-        <p class="lead">The phone listener uses the Twilio API to record phone calls so that you can refer back to them later. Whether it's a business conference call or an over-the-phone interview, you never have to forget your important conversations again.</p>
-        <% if (!loggedIn) {%>
-        <p><a class="btn btn-lg btn-success" href="/signup" role="button">Sign up today</a></p>
-        <%} else {%>
-         <p><a class="btn btn-lg btn-success" href="/recordings" role="button">View your recordings</a></p>
-        <% } %>
-      </div>
+      <h1>Your Recordings</h1>
+      <table class="table table-striped">
+      	<thead>
+      		<tr>
+      			<th>Link</th>
+      			<th>Read</th>
+      			<th>Date</th>
+      		</tr>
+      	</thead>
 
-      <footer class="footer">
-        <p>© Aaron Kau, Austin Tsai, David Tian 2017</p>
-      </footer>
+      	<tbody>
+      		<% for(var i = 0; i < recordings.length; i++){ %>
+      		<tr>
+      			<th><%= recordings[i].url %></th>
+      			<th><%= recordings[i].read %></th>
+      			<th><%= recordings[i].date %></th>
+      		</th>
+      		<% } %>
+      	</tbody>
+
+      </table>
 
     </div>
 
