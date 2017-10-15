@@ -175,7 +175,7 @@ app.post('/recordDone', (request, response) => {
 });
 
 // Returns TwiML which prompts the caller to record a message 
-app.post('/recordDone', (request, response) => {
+app.post('/transcriptionDone', (request, response) => {
   console.log("TRANSCRIPTION: " + request.body.TranscriptionText);
   console.log("TRANSCRIPTION FROM: " + request.body.From);
   response.writeHead(200, {'Content-Type': 'text/xml'});
