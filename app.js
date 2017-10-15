@@ -116,23 +116,24 @@ app.post('/record', (request, response) => {
   let twiml = new twilio.twiml.VoiceResponse();
   twiml.say('Hello. Please leave a message after the beep.');
 
-  console.log("twiml say");
-
   // Use <Record> to record and transcribe the caller's message
-  twiml.record({transcribe: true, maxLength: 30});
-
-  console.log("twiml record");
+  twiml.record({transcribe: true, maxLength: 30, action: '/recordDone'});
 
   // End the call with <Hangup>
   twiml.hangup();
-
-  console.log("twiml hangup");
 
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
   response.send(twiml.toString());
 
-  console.log("twiml send");
+});
+
+// Returns TwiML which prompts the caller to record a message 
+app.post('/recordDone', (request, response) => {
+  console.log("RECORDING AT: " + request.params.RecordingUrl);
+  console.log(request);
+  console.log(JSON.stringify(request));
+
 });
 
 // route middleware to make sure a user is logged in
