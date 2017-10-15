@@ -21,4 +21,4 @@ function validate(){
 	}
 }
 
-document.querySelector('button #submit-button').onclick = validate();
+document.querySelector('button#submit-button').onclick = validate();
