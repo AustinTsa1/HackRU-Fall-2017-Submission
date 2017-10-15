@@ -132,8 +132,8 @@ app.post('/record', (request, response) => {
 app.post('/recordDone', (request, response) => {
   console.log("RECORDING AT: " + request.body.RecordingUrl);
   console.log("RECORDING FROM: " + request.body.From);
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end("<success />");
+  response.writeHead(200, {'Content-Type': 'text/xml'});
+  response.end("<success />");
 });
 
 // route middleware to make sure a user is logged in
