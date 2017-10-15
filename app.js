@@ -117,7 +117,7 @@ app.post('/record', (request, response) => {
   twiml.say('Hello. Please leave a message after the beep.');
 
   // Use <Record> to record and transcribe the caller's message
-  twiml.record({transcribe: false, maxLength: 3600, action: '/recordDone', playBeep: false});
+  twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
 
   // End the call with <Hangup>
   twiml.hangup();
@@ -132,7 +132,7 @@ app.post('/record', (request, response) => {
 app.post('/recordDone', (request, response) => {
   console.log("RECORDING AT: " + request.body.RecordingUrl);
   console.log("RECORDING FROM: " + request.body.From);
-
+  response.send("{status: success}");
 });
 
 // route middleware to make sure a user is logged in
