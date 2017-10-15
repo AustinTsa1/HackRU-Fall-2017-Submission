@@ -119,12 +119,9 @@ app.post('/record', (request, response) => {
   // Use <Record> to record and transcribe the caller's message
   twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
 
-  
-  const dial = twiml.dial();
-  dial.conference({waitUrl: "", endConferenceOnExit: true}, ""+Math.random());
 
-  // End the call with <Hangup>
-  twiml.hangup();
+  const dial = twiml.dial();
+  dial.number("");
 
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
