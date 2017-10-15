@@ -34,13 +34,13 @@ public class TwilioRecord extends HttpServlet {
     // Find your Account Sid and Token at twilio.com/user/account
 	/*
     public static final String ACCOUNT_SID = "ACd87c1b6c124645a1c0c731530a700ea1";
-    public static final String AUTH_TOKEN = "7c744298099d73244083dcd2b1ea90cf";
+    public static final String AUTH_TOKEN = "/*xxxx*/";
 
     public static void main(String[] args) throws URISyntaxException {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
         Call call = Call.creator(
-                new PhoneNumber("19083070779"),
+                new PhoneNumber("/*xx*/"),
                 new PhoneNumber("7325079779"),
                 new URI("https://www.youtube.com/watch?v=sUmoa4uDlWc")
                 )
