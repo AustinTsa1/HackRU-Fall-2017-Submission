@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 // define the schema for our user model
 var recordingSchema = mongoose.Schema({
-	sid: Number,
+	sid: String,
     number: String,
     read: Boolean,
     url: String,
