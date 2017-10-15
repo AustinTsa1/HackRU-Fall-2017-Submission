@@ -81,6 +81,7 @@ app.get('/recordings', isLoggedIn, function(req, res) {
             user : req.user,
             recordings
         });
+        console.log(req.user);
         console.log(recordings);
 	});
 });
