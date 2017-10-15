@@ -20,3 +20,5 @@ function validate(){
 		document.querySelector('div #form-alert').style.display = "inline";
 	}
 }
+
+document.querySelector('button #submit-button').onclick = validate();
