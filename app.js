@@ -130,6 +130,15 @@ app.post('/recordDone', (request, response) => {
   //console.log("RECORDING FROM: " + request.body.From);
   response.writeHead(200, {'Content-Type': 'text/xml'});
   response.end("<success />");
+
+  var recording = new Recording();
+  recording.sid = request.body.AccountSid;
+  recording.number = request.body.From;
+  recording.read = false;
+  recording.url = request.body.RecordingUrl;
+  recording.date = Date.now()
+
+  recording.save();
 });
 
 // route middleware to make sure a user is logged in

@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 
 // define the schema for our user model
 var recordingSchema = mongoose.Schema({
-
-    email: String,
+	sid: Number,
+    number: String,
     read: Boolean,
     url: String,
-    date: Date
+    date: Number
 
 });
 
