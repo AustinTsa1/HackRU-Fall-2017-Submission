@@ -37,14 +37,16 @@
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3><span class="fa fa-user"></span>Your Profile</h3>
+               <form action="/verifyphone" method="GET">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="token" id="token">
+                    </div>
 
-                    <p>
-                        <strong>User ID</strong>: <%= user._id %><br>
-                        <strong>E-mail Address</strong>: <%= user.local.email %><br>
-                        <strong>Phone Number</strong>: <%= user.local.phone %>
-                    </p>
+                    <input type="text" class="form-control" name="phone" id="phone" style="display:none" value="<%= phone%>">
 
+                    <input type="submit" class="btn btn-warning btn-lg"></input>
+               </form>
             </div>
         </div>
 
