@@ -19,6 +19,11 @@ var configDB = require('./config/database');
 
 var twilio = require('twilio');
 
+const Client = require('authy-client').Client;
+const authy = new Client({key: "G3piaUerV3a3jUPgJUNOQiVwwgrRwwGn"});
+
+const enums = require('authy-client').enums;
+
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
 
@@ -59,7 +64,7 @@ app.get('/profile', isLoggedIn, function(req, res) {
 });
 
 // RECORDINGS
-app.get('/recordings', isLoggedIn, function(req, res) {
+app.get('/recordings', isLoggedIn, isVerified, function(req, res) {
    Recording.find({
         number: req.user.local.phone
     }, function(err, recordings) {
@@ -70,12 +75,25 @@ app.get('/recordings', isLoggedIn, function(req, res) {
 	});
 });
 
+app.get('/verificationPage', isLoggedIn, function(req, res) {
+  authy.startPhoneVerification({ countryCode: 'US', locale: 'en', phone: req.user.local.phone, via: enums.verificationVia.SMS }, function(err, res) {
+  if (err) throw err;
+
+  });
+
+  res.render('verification.ejs', {
+    phone: req.user.local.phone
+  });
+});
+
 app.get('/logout', function(req, res) {
     req.logout();
     if (!req.user) 
         res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.redirect('/');
 });
+
+
 
 app.post('/login', passport.authenticate('local-login', {
     successRedirect : '/profile', // redirect to the secure profile section
@@ -100,7 +118,7 @@ app.post('/signup', passport.authenticate('local-signup', {
                     if (err)
                         throw err;
                 });
-      res.redirect('/');
+      res.redirect('/verificationPage');
     });
   }
 });
@@ -181,6 +199,38 @@ app.post('/transcriptionDone', (request, response) => {
   })
 
 });
+
+app.get('/verifyPhone', (req, res) => {
+  console.log(req.query.phone);
+  console.log(req.query.token);
+  authy.verifyPhone({ countryCode: 'US', phone: req.query.phone, token: req.query.token })
+  .then(function(response) {
+    req.user.local.verified = true;
+    req.user.save();
+    res.redirect("/");
+  })
+  .catch(function(error) {
+      console.log("err: " + error);
+      res.redirect('/verificationPage');
+  });
+});
+
+
+function isVerified(req, res, next) {
+  User.findOne({
+      "local.email": req.user.local.email
+    }, function(err, user) {
+      if (err) {
+        throw err;
+      }
+      if (user.local.verified) {
+        return next();
+      } else {
+        res.redirect('/verificationPage');
+      }
+    });
+
+}
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {

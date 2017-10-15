@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/AustinTsa1/HackRU-Fall-2017-Submission#readme",
   "dependencies": {
+    "authy-client": "^1.0.10",
     "bcrypt-nodejs": "0.0.3",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
