@@ -33,7 +33,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // HOME PAGE (with login links) ========
 // =====================================
 app.get('/', function(req, res) {
-    res.render('index.ejs'); // load the index.ejs file
+    res.render('index.ejs', {loggedIn: req.isAuthenticated()}); // load the index.ejs file
 });
 
 // =====================================
