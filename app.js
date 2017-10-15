@@ -137,7 +137,7 @@ app.post('/record', (request, response) => {
   dial.conference({waitUrl: "", record: "record-from-start", recordingStatusCallback: "/recordDone", "endConferenceOnExit": true}, "test");
 */
 
-  twiml.record({action: '/recordDone', timeout: 20, maxLength: 3600, trim: "do-not-trim"})
+  twiml.record({action: '/recordDone', timeout: 20, maxLength: 3600, trim: "do-not-trim", transcribe: true, transcribeCallback: "/transcriptionDone"});
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
   response.send(twiml.toString());
@@ -151,18 +151,57 @@ app.post('/recordDone', (request, response) => {
   response.writeHead(200, {'Content-Type': 'text/xml'});
   response.end("<success />");
 
-  var recording = new Recording();
-  recording.sid = request.body.AccountSid;
-  recording.number = request.body.From;
-  recording.read = false;
-  recording.url = request.body.RecordingUrl;
-  recording.date = Date.now()
 
-  recording.save(function(err) {
-      if (err)
-          throw err;
-      console.log("Saved to DB.");
+  Recording.findOne({
+    sid: request.body.RecordingSid
+  }, function(err, recording) {
+    if (recording == null) {
+      var recording = new Recording();
+      recording.sid = request.body.RecordingSid;
+      recording.number = request.body.From;
+      recording.read = false;
+      recording.date = Date.now()
+    }
+
+    recording.url = request.body.RecordingUrl;
+
+    recording.save(function(err) {
+        if (err)
+            throw err;
+        console.log("Saved to DB.");
+    });
   });
+    
+});
+
+// Returns TwiML which prompts the caller to record a message 
+app.post('/recordDone', (request, response) => {
+  console.log("TRANSCRIPTION: " + request.body.TranscriptionText);
+  console.log("TRANSCRIPTION FROM: " + request.body.From);
+  response.writeHead(200, {'Content-Type': 'text/xml'});
+  response.end("<success />");
+
+  Recording.findOne({
+    sid: request.body.RecordingSid
+  }, function(err, recording) {
+
+    if (recording == null) {
+      recording = new Recording();
+      recording.sid = request.body.RecordingSid;
+      recording.number = request.body.From;
+      recording.read = false;
+      recording.date = Date.now()
+    }
+      recording.transcription = request.body.TranscriptionText;
+
+      recording.save(function(err) {
+          if (err)
+              throw err;
+          console.log("Saved to DB.");
+      });
+
+  })
+
 });
 
 // route middleware to make sure a user is logged in

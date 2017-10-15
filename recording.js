@@ -6,7 +6,8 @@ var recordingSchema = mongoose.Schema({
     number: String,
     read: Boolean,
     url: String,
-    date: Number
+    date: Number,
+    transcription: String
 
 });
 
