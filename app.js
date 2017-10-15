@@ -111,16 +111,18 @@ app.post('/signup', passport.authenticate('local-signup', {
 
 // Returns TwiML which prompts the caller to record a message 
 app.post('/record', (request, response) => {
-  console.log("Recording...");
   // Use the Twilio Node.js SDK to build an XML response
   let twiml = new twilio.twiml.VoiceResponse();
 
-  // Use <Record> to record and transcribe the caller's message
-  twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
-
+  console.log("Dialing...");
   var dial = twiml.dial();
   dial.number("9083070779");
 
+
+  console.log("Calling record.");
+  // Use <Record> to record and transcribe the caller's message
+  twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
+  console.log("Recording...");
 
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
