@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Phone Listener - Recordings</title>
+    <title>Re-Call - Recordings</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -17,28 +17,30 @@
         <nav>
           <ul class="nav nav-pills float-right">
             <li class="nav-item">
-              <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/profile">Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/recordings">Recordings</a>
+              <a class="nav-link active" href="/recordings">Recordings</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
             </li>
           </ul>
         </nav>
-        <h3 class="text-muted">Phone Listener</h3>
+        <h3 class="text-muted">Re-Call</h3>
       </div>
 
       <h1>Your Recordings</h1>
+      <h3>To create a recording, simply create a conference call with: +1 (732) 507 - 9779.</h3>
       <table class="table table-striped">
       	<thead>
       		<tr>
-      			<th>Link</th>
-      			<th>Read</th>
+      			<th>Recording</th>
+      			<!--<th>Read</th>-->
+			      <th>Transcription</th>
       			<th>Date</th>
       		</tr>
       	</thead>
@@ -46,9 +48,15 @@
       	<tbody>
       		<% for(var i = 0; i < recordings.length; i++){ %>
       		<tr>
-      			<th><%= recordings[i].url %></th>
-      			<th><%= recordings[i].read %></th>
-      			<th><%= recordings[i].date %></th>
+			<th>
+			<audio controls>
+      			<source src = "<%= recordings[i].url %>" type = "audio/wav">
+			</audio> 
+			</th>
+
+      			<!--<th><%= recordings[i].read %></th>-->
+            <th><%= recordings[i].transcription || "Currently Unavailable." %></th>
+      			<th><%= new Date(recordings[i].date).toISOString().substring(0,10) %></th>
       		</tr>
       		<% } %>
       	</tbody>

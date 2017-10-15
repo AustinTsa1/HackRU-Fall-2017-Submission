@@ -3,6 +3,7 @@ var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 
+var User = require('./user');
 var Recording = require('./recording');
 
 var passport = require('passport');
@@ -34,31 +35,16 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-// =====================================
-// HOME PAGE (with login links) ========
-// =====================================
 app.get('/', function(req, res) {
     res.render('index.ejs', {loggedIn: req.isAuthenticated()}); // load the index.ejs file
 });
 
-// =====================================
-// LOGIN ===============================
-// =====================================
-// show the login form
 app.get('/login', function(req, res) {
 
     // render the page and pass in any flash data if it exists
     res.render('login.ejs', { message: req.flash('loginMessage') }); 
 });
 
-
-// process the login form
-// app.post('/login', do all our passport stuff here);
-
-// =====================================
-// SIGNUP ==============================
-// =====================================
-// show the signup form
 app.get('/signup', function(req, res) {
 
     // render the page and pass in any flash data if it exists
@@ -75,22 +61,15 @@ app.get('/profile', isLoggedIn, function(req, res) {
 // RECORDINGS
 app.get('/recordings', isLoggedIn, function(req, res) {
    Recording.find({
-        email: req.user.email
+        number: req.user.local.phone
     }, function(err, recordings) {
         res.render('recordings.ejs', {
             user : req.user,
             recordings
         });
-        console.log(recordings);
-	    res.render('profile.ejs', {
-	        user : req.user // get the user out of session and pass to template
-	    });
 	});
 });
 
-// =====================================
-// LOGOUT ==============================
-// =====================================
 app.get('/logout', function(req, res) {
     req.logout();
     if (!req.user) 
@@ -105,23 +84,38 @@ app.post('/login', passport.authenticate('local-login', {
 }));
 
 app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/profile', // redirect to the secure profile section
     failureRedirect : '/signup', // redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
-}));
+}), function(req, res) {
+  if (req.isAuthenticated()) {
+    User.findOne({
+      "local.email": req.user.local.email
+    }, function(err, user) {
+      if (err) {
+        console.log("Err: " + err);
+        return;
+      }
+      user.local.phone = req.body["phone"];
+      user.save(function(err) {
+                    if (err)
+                        throw err;
+                });
+      res.redirect('/');
+    });
+  }
+});
 
 // Returns TwiML which prompts the caller to record a message 
 app.post('/record', (request, response) => {
   // Use the Twilio Node.js SDK to build an XML response
   let twiml = new twilio.twiml.VoiceResponse();
-  twiml.say('Hello. Please leave a message after the beep.');
 
-  // Use <Record> to record and transcribe the caller's message
-  twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
+  /*console.log("Dialing...");
+  var dial = twiml.dial();
+  dial.conference({waitUrl: "", record: "record-from-start", recordingStatusCallback: "/recordDone", "endConferenceOnExit": true}, "test");
+*/
 
-  // End the call with <Hangup>
-  twiml.hangup();
-
+  twiml.record({action: '/recordDone', timeout: 20, maxLength: 3600, trim: "do-not-trim", transcribe: true, transcribeCallback: "/transcriptionDone"});
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
   response.send(twiml.toString());
@@ -134,6 +128,58 @@ app.post('/recordDone', (request, response) => {
   console.log("RECORDING FROM: " + request.body.From);
   response.writeHead(200, {'Content-Type': 'text/xml'});
   response.end("<success />");
+
+
+  Recording.findOne({
+    sid: request.body.RecordingSid
+  }, function(err, recording) {
+    if (recording == null) {
+      var recording = new Recording();
+      recording.sid = request.body.RecordingSid;
+      recording.number = request.body.From;
+      recording.read = false;
+      recording.date = Date.now()
+    }
+
+    recording.url = request.body.RecordingUrl;
+
+    recording.save(function(err) {
+        if (err)
+            throw err;
+        console.log("Saved to DB.");
+    });
+  });
+    
+});
+
+// Returns TwiML which prompts the caller to record a message 
+app.post('/transcriptionDone', (request, response) => {
+  console.log("TRANSCRIPTION: " + request.body.TranscriptionText);
+  console.log("TRANSCRIPTION FROM: " + request.body.From);
+  response.writeHead(200, {'Content-Type': 'text/xml'});
+  response.end("<success />");
+
+  Recording.findOne({
+    sid: request.body.RecordingSid
+  }, function(err, recording) {
+
+    if (recording == null) {
+      recording = new Recording();
+      recording.sid = request.body.RecordingSid;
+      recording.number = request.body.From;
+      recording.read = false;
+      recording.date = Date.now()
+    }
+      recording.transcription = request.body.TranscriptionText;
+
+      recording.save(function(err) {
+          if (err)
+              throw err;
+          console.log("Saved to DB.");
+      });
+
+  })
+
 });
 
 // route middleware to make sure a user is logged in
