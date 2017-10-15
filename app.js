@@ -83,7 +83,8 @@ app.get('/profile', isLoggedIn, function(req, res) {
 		email: req.user.email
 	}, function(err, recordings) {
 		    res.render('profile.ejs', {
-	        	user : req.user // get the user out of session and pass to template
+	        	user : req.user,
+	        	recordings
 	    	});
 	    	console.log(recordings);
 	});

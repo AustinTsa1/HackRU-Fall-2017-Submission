@@ -5,7 +5,8 @@ var recordingSchema = mongoose.Schema({
 
     email: String,
     read: Boolean,
-    url: String
+    url: String,
+    date: Date
 
 });
 
