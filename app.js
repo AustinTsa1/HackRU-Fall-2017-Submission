@@ -115,7 +115,8 @@ app.post('/record', (request, response) => {
   console.log("Recording...");
   // Use the Twilio Node.js SDK to build an XML response
   let twiml = new twilio.twiml.VoiceResponse();
-  twiml.say('Hello. Please leave a message after the beep.');
+  const dial = twiml.dial();
+  dial.conference(Math.random());
 
   // Use <Record> to record and transcribe the caller's message
   twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
@@ -134,7 +135,7 @@ app.post('/recordDone', (request, response) => {
   console.log("RECORDING AT: " + request.body.RecordingUrl);
   console.log("RECORDING FROM: " + request.body.From);
   response.writeHead(200, {'Content-Type': 'text/xml'});
-  response.end("<success />");
+  response.end("");
 });
 
 // route middleware to make sure a user is logged in
