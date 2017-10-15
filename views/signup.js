@@ -3,9 +3,11 @@ var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0
 function validate(){
 	if (document.querySelector('input [name=email]').value == null){
 		document.querySelector('div #form-alert').innerHTML = "Please enter a valid email.";
+		document.querySelector('div #form-alert').style.display = "inline";
 		return false;
 	} else if (document.querySelector('input [name=password]').value == null){
 		document.querySelector('div #form-alert').innerHTML = "Please enter a password.";
+		document.querySelector('div #form-alert').style.display = "inline";
 		return false;
 	}
 
@@ -15,5 +17,6 @@ function validate(){
 		document.querySelector('form #signup-form').submit();
 	} else {
 		document.querySelector('div #form-alert').innerHTML = "Please enter a valid email.";
+		document.querySelector('div #form-alert').style.display = "inline";
 	}
 }
