@@ -116,13 +116,7 @@ app.post('/record', (request, response) => {
 
   console.log("Dialing...");
   var dial = twiml.dial();
-  dial.number("9083070779");
-
-
-  console.log("Calling record.");
-  // Use <Record> to record and transcribe the caller's message
-  twiml.record({transcribe: false, maxLength: 30, action: '/recordDone', playBeep: false});
-  console.log("Recording...");
+  dial.conference({waitUrl: "", record: "record-from-start", recordingStatusCallback: "/recordDone", "endConferenceOnExit", true}, "test");
 
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
@@ -133,7 +127,7 @@ app.post('/record', (request, response) => {
 // Returns TwiML which prompts the caller to record a message 
 app.post('/recordDone', (request, response) => {
   console.log("RECORDING AT: " + request.body.RecordingUrl);
-  console.log("RECORDING FROM: " + request.body.From);
+  //console.log("RECORDING FROM: " + request.body.From);
   response.writeHead(200, {'Content-Type': 'text/xml'});
   response.end("<success />");
 });
