@@ -113,7 +113,7 @@ app.post('/signup', passport.authenticate('local-signup', {
 // Returns TwiML which prompts the caller to record a message 
 app.post('/record', (request, response) => {
   // Use the Twilio Node.js SDK to build an XML response
-  let twiml = new twilio.TwimlResponse();
+  let twiml = new twilio.twiml.MessagingResponse();
   twiml.say('Hello. Please leave a message after the beep.');
 
   console.log("twiml say");
