@@ -96,6 +96,8 @@ app.get('/profile', isLoggedIn, function(req, res) {
 // =====================================
 app.get('/logout', function(req, res) {
     req.logout();
+    if (!req.user) 
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.redirect('/');
 });
 
