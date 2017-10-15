@@ -2,6 +2,9 @@ var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
+
+var Recording = require('./recording');
+
 var passport = require('passport');
 var flash    = require('connect-flash');
 
@@ -68,9 +71,23 @@ app.get('/signup', function(req, res) {
 // we will want this protected so you have to be logged in to visit
 // we will use route middleware to verify this (the isLoggedIn function)
 app.get('/profile', isLoggedIn, function(req, res) {
-    res.render('profile.ejs', {
-        user : req.user // get the user out of session and pass to template
-    });
+
+	var r = new Recording();
+	r.email = "aaronkau@Hotmail.com";
+	r.read = false;
+	r.url = "https://www.google.com/";
+
+	r.save();
+
+	Recording.find({
+		email: req.user.email
+	}, function(err, recordings) {
+		    res.render('profile.ejs', {
+	        	user : req.user // get the user out of session and pass to template
+	    	});
+	    	console.log(recordings);
+	});
+
 });
 
 // =====================================
