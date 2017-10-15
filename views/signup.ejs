@@ -22,7 +22,7 @@
     <% } %>
 
     <!-- LOGIN FORM -->
-    <form action="/signup" method="post">
+    <form action="/signup" method="post" id="signup-form">
         <div class="form-group">
             <label>Email</label>
             <input type="text" class="form-control" name="email">
@@ -32,7 +32,10 @@
             <input type="password" class="form-control" name="password">
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+        <!-- Placeholder for error messages -->
+        <div class="alert alert-danger" id="form-alert"></div>
+
+        <button type="submit" class="btn btn-warning btn-lg" onsubmit="event.preventDefault(); validate();">Signup</button>
     </form>
 
     <hr>
