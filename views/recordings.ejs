@@ -55,7 +55,7 @@
 			</th>
 
       			<!--<th><%= recordings[i].read %></th>-->
-            <th><%= recordings[i].transcription || "Currently Unavailable." %></th>
+            <th><%= recordings[i].transcription || "Loading..." %></th>
       			<th><%= new Date(recordings[i].date).toISOString().substring(0,10) %></th>
       		</tr>
       		<% } %>
