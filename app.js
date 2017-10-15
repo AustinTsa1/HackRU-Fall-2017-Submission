@@ -138,7 +138,11 @@ app.post('/recordDone', (request, response) => {
   recording.url = request.body.RecordingUrl;
   recording.date = Date.now()
 
-  recording.save();
+  recording.save(function(err) {
+      if (err)
+          throw err;
+      console.log("Saved to DB.");
+  });
 });
 
 // route middleware to make sure a user is logged in
