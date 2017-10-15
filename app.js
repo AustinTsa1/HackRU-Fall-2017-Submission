@@ -75,7 +75,7 @@ app.get('/profile', isLoggedIn, function(req, res) {
 // RECORDINGS
 app.get('/recordings', isLoggedIn, function(req, res) {
    Recording.find({
-        email: req.user.email
+        email: req.user.local.email
     }, function(err, recordings) {
         res.render('recordings.ejs', {
             user : req.user,
