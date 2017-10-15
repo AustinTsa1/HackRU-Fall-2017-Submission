@@ -115,8 +115,6 @@ app.post('/record', (request, response) => {
   dial.conference({waitUrl: "", record: "record-from-start", recordingStatusCallback: "/recordDone", "endConferenceOnExit": true}, "test");
 */
 
-  twiml.Dial().
-
   twiml.record({action: '/recordDone', timeout: 20, maxLength: 3600, trim: "do-not-trim", transcribe: true, transcribeCallback: "/transcriptionDone"});
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
