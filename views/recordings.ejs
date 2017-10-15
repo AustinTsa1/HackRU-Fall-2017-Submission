@@ -46,9 +46,12 @@
       	<tbody>
       		<% for(var i = 0; i < recordings.length; i++){ %>
       		<tr>
+			<th>
 			<audio controls>
-      			<th><source src = "<%= recordings[i].url %>" type = "audio/wav"</th>
-			</audio>
+      			<source src = "<%= recordings[i].url %>" type = "audio/wav">
+			</audio> 
+			</th>
+
       			<!--<th><%= recordings[i].read %></th>-->
       			<th><%= new Date(recordings[i].date).toString() %></th>
       		</tr>
