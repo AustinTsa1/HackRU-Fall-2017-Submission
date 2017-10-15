@@ -77,14 +77,15 @@ app.get('/recordings', isLoggedIn, function(req, res) {
    Recording.find({
         email: req.user.email
     }, function(err, recordings) {
-            res.render('recordings.ejs', {
-                user : req.user,
-                recordings
-            });
-            console.log(recordings);
-    res.render('profile.ejs', {
-        user : req.user // get the user out of session and pass to template
-    });
+        res.render('recordings.ejs', {
+            user : req.user,
+            recordings
+        });
+        console.log(recordings);
+	    res.render('profile.ejs', {
+	        user : req.user // get the user out of session and pass to template
+	    });
+	});
 });
 
 // =====================================
