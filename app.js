@@ -95,11 +95,10 @@ app.post('/signup', passport.authenticate('local-signup', {
         console.log("Err: " + err);
         return;
       }
-      user.local.phone = req.body["phone number"];
+      user.local.phone = req.body["phone"];
       user.save(function(err) {
                     if (err)
                         throw err;
-                    console.log("Saved.");
                 });
       res.redirect('/');
     });
@@ -115,6 +114,8 @@ app.post('/record', (request, response) => {
   var dial = twiml.dial();
   dial.conference({waitUrl: "", record: "record-from-start", recordingStatusCallback: "/recordDone", "endConferenceOnExit": true}, "test");
 */
+
+  twiml.Dial().
 
   twiml.record({action: '/recordDone', timeout: 20, maxLength: 3600, trim: "do-not-trim", transcribe: true, transcribeCallback: "/transcriptionDone"});
   // Render the response as XML in reply to the webhook request

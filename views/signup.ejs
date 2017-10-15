@@ -5,6 +5,7 @@
     <title>Phone Listener - Signup</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <link rel="stylesheet" href="css/intlTelInput.css">
     <style>
         body        { padding-top:80px; }
     </style>
@@ -32,9 +33,9 @@
             <input type="password" class="form-control" name="password" id="password">
         </div>
         <div class="form-group">
-	    <label>Phone Number</label>
-	    <input type="text" class="form-control" name="phone" id="phone">
-	</div>
+    	    <label>Phone Number</label>
+    	    <input type="tel" class="form-control" name="phone" id="phone" >
+	   </div>
         
         <!-- Placeholder for error messages -->
         <div class="alert alert-danger" id="form-alert" style="display:none"></div>
@@ -73,6 +74,7 @@ function validate(){
     var email = document.querySelector('input#email').value;
 
     if (re.test(email)){
+        $("#phone").val($("#phone").intlTelInput("getNumber", intlTelInputUtils.numberFormat.E164));
         document.querySelector('form#signup-form').submit();
     } else {
         document.querySelector('div#form-alert').innerHTML = "Please enter a valid email.";
@@ -80,6 +82,14 @@ function validate(){
     }
     return;
 }
+
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/intlTelInput.js"></script>
+<script>
+  $("#phone").intlTelInput({
+    utilsScript: "js/utils.js"
+  });
 </script>
 
 </body>
