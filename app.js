@@ -121,7 +121,7 @@ app.post('/record', (request, response) => {
 
   console.log("Calling record.");
   // Use <Record> to record and transcribe the caller's message
-  twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
+  twiml.record({transcribe: false, maxLength: 30, action: '/recordDone', playBeep: false});
   console.log("Recording...");
 
   // Render the response as XML in reply to the webhook request
