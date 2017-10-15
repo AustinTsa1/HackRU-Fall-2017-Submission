@@ -115,7 +115,7 @@ app.post('/record', (request, response) => {
   // Use the Twilio Node.js SDK to build an XML response
   let twiml = new twilio.twiml.VoiceResponse();
   const dial = twiml.dial();
-  dial.conference(Math.random());
+  dial.conference({waitURL: "", endConferenceOnExit: true}, ""+Math.random());
 
   // Use <Record> to record and transcribe the caller's message
   twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
