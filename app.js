@@ -16,6 +16,8 @@ var session      = require('express-session');
 
 var configDB = require('./config/database');
 
+var twilio = require('twilio');
+
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
 
@@ -111,6 +113,23 @@ app.post('/signup', passport.authenticate('local-signup', {
     failureRedirect : '/signup', // redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
 }));
+
+// Returns TwiML which prompts the caller to record a message 
+app.post('/record', (request, response) => {
+  // Use the Twilio Node.js SDK to build an XML response
+  let twiml = new twilio.TwimlResponse();
+  twiml.say('Hello. Please leave a message after the beep.');
+
+  // Use <Record> to record and transcribe the caller's message
+  twiml.record({transcribe: true, maxLength: 30});
+
+  // End the call with <Hangup>
+  twiml.hangup();
+
+  // Render the response as XML in reply to the webhook request
+  response.type('text/xml');
+  response.send(twiml.toString());
+});
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
