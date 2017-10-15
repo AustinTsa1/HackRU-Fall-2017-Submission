@@ -132,7 +132,7 @@ app.post('/record', (request, response) => {
 app.post('/recordDone', (request, response) => {
   console.log("RECORDING AT: " + request.body.RecordingUrl);
   console.log("RECORDING FROM: " + request.body.From);
-
+  response.send("{status: success}");
 });
 
 // route middleware to make sure a user is logged in
