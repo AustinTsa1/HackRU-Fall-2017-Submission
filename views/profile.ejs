@@ -16,10 +16,10 @@
         <nav>
           <ul class="nav nav-pills float-right">
             <li class="nav-item">
-              <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/profile">Profile</a>
+              <a class="nav-link active" href="/profile">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/recordings">Recordings</a>
@@ -37,12 +37,12 @@
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
+                <h3><span class="fa fa-user"></span>Your Profile</h3>
 
                     <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
+                        <strong>User ID</strong>: <%= user._id %><br>
+                        <strong>E-mail Address</strong>: <%= user.local.email %><br>
+                        <strong>Phone Number</strong>: <%= user.local.phone %>
                     </p>
 
             </div>

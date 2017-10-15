@@ -35,31 +35,16 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-// =====================================
-// HOME PAGE (with login links) ========
-// =====================================
 app.get('/', function(req, res) {
     res.render('index.ejs', {loggedIn: req.isAuthenticated()}); // load the index.ejs file
 });
 
-// =====================================
-// LOGIN ===============================
-// =====================================
-// show the login form
 app.get('/login', function(req, res) {
 
     // render the page and pass in any flash data if it exists
     res.render('login.ejs', { message: req.flash('loginMessage') }); 
 });
 
-
-// process the login form
-// app.post('/login', do all our passport stuff here);
-
-// =====================================
-// SIGNUP ==============================
-// =====================================
-// show the signup form
 app.get('/signup', function(req, res) {
 
     // render the page and pass in any flash data if it exists
@@ -82,15 +67,9 @@ app.get('/recordings', isLoggedIn, function(req, res) {
             user : req.user,
             recordings
         });
-        console.log(err);
-        console.log(req.user);
-        console.log(recordings);
 	});
 });
 
-// =====================================
-// LOGOUT ==============================
-// =====================================
 app.get('/logout', function(req, res) {
     req.logout();
     if (!req.user) 
