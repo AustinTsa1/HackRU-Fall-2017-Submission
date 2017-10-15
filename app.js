@@ -115,13 +115,8 @@ app.post('/record', (request, response) => {
   // Use the Twilio Node.js SDK to build an XML response
   let twiml = new twilio.twiml.VoiceResponse();
 
-
   // Use <Record> to record and transcribe the caller's message
   twiml.record({transcribe: false, maxLength: 3000, action: '/recordDone', playBeep: false});
-
-
-  const dial = twiml.dial();
-  dial.number("");
 
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
