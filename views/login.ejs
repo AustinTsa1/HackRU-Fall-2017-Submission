@@ -25,14 +25,17 @@
     <form action="/login" method="post">
         <div class="form-group">
             <label>Email</label>
-            <input type="text" class="form-control" name="email">
+            <input type="text" class="form-control" name="email" id="email">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" class="form-control" name="password">
+            <input type="password" class="form-control" name="password" id="password">
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+        <!-- Placeholder for error messages -->
+        <div class="alert alert-danger" id="form-alert" style="display:none"></div>
+
+        <button type="button" class="btn btn-warning btn-lg" onclick="validate();">Login</button>
     </form>
 
     <hr>
@@ -44,7 +47,31 @@
 
 </div>
 
-<script src="login.js"></script>
+<script>
+function validate(){
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (document.querySelector('input#email').value == ''){
+        document.querySelector('div#form-alert').innerHTML = "Please enter an email.";
+        document.querySelector('div#form-alert').style.display = "inline";
+        return;
+    } else if (document.querySelector('input#password').value == ''){
+        document.querySelector('div#form-alert').innerHTML = "Please enter a password.";
+        document.querySelector('div#form-alert').style.display = "inline";
+        return;
+    }
+
+    var email = document.querySelector('input#email').value;
+
+    if (re.test(email)){
+        document.querySelector('form#signup-form').submit();
+    } else {
+        document.querySelector('div#form-alert').innerHTML = "Please enter a valid email.";
+        document.querySelector('div#form-alert').style.display = "inline";
+    }
+    return;
+}
+</script>
 
 </body>
 </html>
