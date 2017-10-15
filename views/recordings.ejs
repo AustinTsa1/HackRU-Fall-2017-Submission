@@ -38,7 +38,7 @@
       	<thead>
       		<tr>
       			<th>Link</th>
-      			//<th>Read</th>
+      			<!--<th>Read</th>-->	
       			<th>Date</th>
       		</tr>
       	</thead>
@@ -47,8 +47,8 @@
       		<% for(var i = 0; i < recordings.length; i++){ %>
       		<tr>
       			<th><a><%= recordings[i].url %></a></th>
-      			//<th><%= recordings[i].read %></th>
-      			<th><%= recordings[i].date.toString() %></th>
+      			<!--<th><%= recordings[i].read %></th>-->
+      			<th><%= new Date(recordings[i].date).toString() %></th>
       		</tr>
       		<% } %>
       	</tbody>
