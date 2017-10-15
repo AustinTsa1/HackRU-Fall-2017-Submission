@@ -130,9 +130,8 @@ app.post('/record', (request, response) => {
 
 // Returns TwiML which prompts the caller to record a message 
 app.post('/recordDone', (request, response) => {
-  console.log("RECORDING AT: " + request.params.RecordingUrl);
-  console.log(request);
-  console.log(JSON.stringify(request));
+  console.log("RECORDING AT: " + request.body.RecordingUrl);
+  console.log("RECORDING FROM: " + request.body.From);
 
 });
 
